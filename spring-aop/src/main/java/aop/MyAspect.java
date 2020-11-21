@@ -1,10 +1,8 @@
 package aop;
 
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,14 +25,16 @@ public class MyAspect {
         System.out.println("后置增强....");
     }
 
-    public void around() throws Throwable {
+    @Around("pointCut()")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
         System.out.println("环绕前增强....");
-
+        Object proceed = pjp.proceed();
         System.out.println("环绕后增强....");
-
+        return proceed;
     }
+
     @Pointcut("execution( * aop.*.*(..))")
-    public void pointCut(){
+    public void pointCut() {
 
     }
 }
